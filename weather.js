@@ -1,9 +1,9 @@
-const APIKEY = '344ff4343a71b91f5d10e856ac855c71';
-const city = 'Rouen'
-let url = 'https://api.openweathermap.org/data/2.5/weather?q=Rouen&appid=${APIKEY}';
+//const APIKEY = '344ff4343a71b91f5d10e856ac855c71';
+
+let url = 'https://api.openweathermap.org/data/2.5/weather?q=Rouen&appid=${344ff4343a71b91f5d10e856ac855c71}';
 
 
-//let url = 'https://api.openweathermap.org/data/2.5/weather?q=London,uk&APPID=${APIKEY}';
+//let url = 'https://api.openweathermap.org/data/2.5/weather?q=London,uk&APPID=${APIKEY}&lang=en-US';
 
 
 fetch(url).then((response) =>
@@ -16,3 +16,4 @@ response.json().then((data)=> {
 })
     
     );
+//let url = 'https://api.openweathermap.org/data/2.5/weather?q=London,uk&APPID=${APIKEY}';
