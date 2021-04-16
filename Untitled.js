@@ -1,52 +1,36 @@
-// Template from https://bl.ocks.org/mbostock/3885304
-var svg = d3.select("svg"),
-    margin = {top: 20, right: 20, bottom: 30, left: 40},
-    width = +svg.attr("width") - margin.left - margin.right,
-    height = +svg.attr("height") - margin.top - margin.bottom;
+const APIKEY = '344ff4343a71b91f5d10e856ac855c71';
 
-//Generates a categorical x axis and a numeric y axis
-var x = d3.scaleBand().rangeRound([0, width]).padding(0.1),
-    y = d3.scaleLinear().rangeRound([height, 0]);
+/*Appel a l'API openWeather avec ville en parametre de fonction*/
+let apiCall = function (city) {
+  let url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${APIKEY}&units=metric&lang=fr
+`;
 
-//Generates chart container that is adjusted by margin parameters
-var g = svg.append("g")
-    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+  fetch(url)
+    .then((response) =>
+      response.json().then((data) => {
+        console.log(data);
+        document.querySelector('#city').innerHTML = data.name;
+        document.querySelector('#temp').innerHTML =
+          "<i class='fas fa-thermometer-half'></i>" + data.main.temp + '°';
+        document.querySelector('#humidity').innerHTML =
+          "<i class='fas fa-tint'></i>" + data.main.humidity + '%';
+        document.querySelector('#wind').innerHTML =
+          "<i class='fas fa-wind'></i>" + data.wind.speed + 'km/h';
+        document.querySelector(
+          'footer'
+        ).innerHTML = `<img src='http://openweathermap.org/img/w/${data.weather[0].icon}.png' alt='temps'> Meteo`;
+      })
+    )
+    .catch((err) => console.log('Erreur : ' + err));
+};
 
-//Reads data from tsv
-d3.tsv("data.tsv", function(d) {
-  //set up your data transforms here
-  d.name = "";
-  d.value = + 0;
-  return d;
-}, function(error, data) {
-  if (error) throw error;
+/*Ecouteur d'evenement sur la soumission du formulaire*/
+document.querySelector('form').addEventListener('submit', function (e) {
+  e.preventDefault();
+  let ville = document.querySelector('#inputCity').value;
 
-  //Sets categorical x domain based on given column
-  x.domain(data.map(function(d) { return d.name; }));
-  y.domain([0, d3.max(data, function(d) { return d.value; })]);
-
-  //Draw x axis and adjust for container size
-  g.append("g")
-      .attr("class", "axis axis--x")
-      .attr("transform", "translate(0," + height + ")")
-      .call(d3.axisBottom(x));
-  //Draw y axis with various styling and transforms
-  g.append("g")
-      .attr("class", "axis axis--y")
-      .call(d3.axisLeft(y).ticks(10, "%"))
-    .append("text")
-      .attr("transform", "rotate(-90)")
-      .attr("y", 6)
-      .attr("dy", "0.71em")
-      .attr("text-anchor", "end")
-      .text("Value");
-  //Draw bars for each name and value in data
-  g.selectAll(".bar")
-    .data(data)
-    .enter().append("rect")
-      .attr("class", "bar")
-      .attr("x", function(d) { return x(d.name); })
-      .attr("y", function(d) { return y(d.value); })
-      .attr("width", x.bandwidth())
-      .attr("height", function(d) { return height - y(d.value); });//draws bars on screen from top to bottom
+  apiCall(ville);
 });
+
+//Appel par defaut au chargement de la page
+apiCall('Rouen');
