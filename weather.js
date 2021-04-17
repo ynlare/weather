@@ -5,7 +5,7 @@ API Key. You can get your url in any language, open weather worked like wunder g
 //If you get our API Key, you can assigned a name for it. My API Key becames BOOBA.
   // Call to the openWeather API with city as a function parameter 
 let apiCall = function (city) {
-  let url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${BOOBA}&units=metric&lang=en
+  let url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${BOOBA}&units=imperial&lang=en
 `;
 
   fetch(url)

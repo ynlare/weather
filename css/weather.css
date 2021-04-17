@@ -1,7 +1,24 @@
-body#photo{
+/*body#photo{
 background-size: cover;
 min-height: 100vh;
-}
+}*/
+
+
+body {
+    background-image: url('../img/pexels-brett-sayles-912364.jpeg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+  }
+
+  input {
+    text-align: center;
+  }
+
+
+
+
+
 
 .box-container{
 width: 300px;
@@ -37,3 +54,19 @@ background-color:rgba(41,128,185,0.75);
             background-color:rgba(143,146,154,0.75);
 
             }
+
+
+            a[href^="https"]::before {
+                content: "🔗 ";
+              }
+              
+              
+              
+              li {
+                margin-bottom: .5rem;
+        color:yellow;
+              }
+
+              
+
+              
